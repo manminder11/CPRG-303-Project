@@ -1,18 +1,19 @@
 import React, { useState } from 'react';
 import { View, Text, TextInput, Button, StyleSheet, TouchableOpacity, FlatList } from 'react-native';
+import { useNavigation } from '@react-navigation/native';
 
 const Search = () => {
   const [query, setQuery] = useState('');
   const [showHistory, setShowHistory] = useState(false);
-  const [history, setHistory] = useState(['apple', 'banana', 'orange']);
+  const [history, setHistory] = useState(['⏳ apple', '⏳ banana', '⏳ orange']);
+  const navigation = useNavigation();
 
   const handleSearch = () => {
-    // Add your search logic here
-    alert(`Searching for: ${query}`);
-    if (query && !history.includes(query)) {
-      setHistory([query, ...history]);
+    if (query && !history.includes(`⏳ ${query}`)) {
+      setHistory([`⏳ ${query}`, ...history]);
     }
     setShowHistory(false);
+    navigation.navigate('Map'); // Navigate to the Map screen
   };
 
   const handleFocus = () => {
@@ -20,8 +21,9 @@ const Search = () => {
   };
 
   const handleHistoryPress = (item) => {
-    setQuery(item);
+    setQuery(item.replace('⏳ ', ''));
     setShowHistory(false);
+    navigation.navigate('Map'); // Navigate to the Map screen
   };
 
   return (
@@ -33,6 +35,7 @@ const Search = () => {
         value={query}
         onChangeText={setQuery}
         onFocus={handleFocus}
+        onSubmitEditing={handleSearch} // Handle enter key press
       />
       {showHistory && (
         <FlatList
