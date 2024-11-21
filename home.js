@@ -1,5 +1,5 @@
 import React, { useEffect } from 'react';
-import { StyleSheet, Image, ScrollView, View, TextInput, Text } from 'react-native';
+import { StyleSheet, Image, ScrollView, View, Text, TouchableOpacity } from 'react-native';
 
 const Home = ({ navigation }) => {
   useEffect(() => {
@@ -31,11 +31,9 @@ const Home = ({ navigation }) => {
   return (
     <ScrollView contentContainerStyle={styles.container}>
       <Text style={styles.title}>Home Page</Text>
-      <TextInput
-        style={styles.input}
-        placeholder="Click here"
-        onFocus={() => navigation.navigate('Search')}
-      />
+      <TouchableOpacity style={styles.input} onPress={() => navigation.navigate('Search')}>
+        <Text style={styles.placeholder}>Type where</Text>
+      </TouchableOpacity>
       {renderImagePairs()}
     </ScrollView>
   );
@@ -60,6 +58,10 @@ const styles = StyleSheet.create({
     marginBottom: 20,
     paddingHorizontal: 10,
     width: '80%',
+    justifyContent: 'center',
+  },
+  placeholder: {
+    color: 'gray',
   },
   imageRow: {
     flexDirection: 'row',
