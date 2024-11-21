@@ -7,8 +7,30 @@ const Home = ({ navigation }) => {
   };
 
   useEffect(() => {
-    // This code is for React Native
+  
   }, []);
+
+  const images = [
+    require('./assets/3rd.jpg'),
+    require('./assets/4th.jpg'),
+    require('./assets/5th.jpg'),
+    require('./assets/6th.jpg'),
+    require('./assets/sec.jpg'),
+    require('./assets/image.jpg'),
+  ];
+
+  const renderImagePairs = () => {
+    const pairs = [];
+    for (let i = 0; i < images.length; i += 2) {
+      pairs.push(
+        <View style={styles.imageRow} key={i}>
+          <Image source={images[i]} style={styles.image} />
+          {images[i + 1] && <Image source={images[i + 1]} style={styles.image} />}
+        </View>
+      );
+    }
+    return pairs;
+  };
 
   return (
     <ScrollView 
@@ -19,17 +41,7 @@ const Home = ({ navigation }) => {
     >
       <Text style={styles.title}>Home Page</Text>
       <Button title="Search" onPress={handleSearch} />
-      <View style={styles.imageRow}>
-        <Image source={require('./assets/3rd.jpg')} style={styles.image} />
-        <Image source={require('./assets/4th.jpg')} style={styles.image} />
-      </View>
-      <View style={styles.imageRow}>
-        <Image source={require('./assets/5th.jpg')} style={styles.image} />
-        <Image source={require('./assets/6th.jpg')} style={styles.image} />
-      </View>
-      <View style={styles.imageRow}>
-        <Image source={require('./assets/sec.jpg')} style={styles.image} />
-      </View>
+      {renderImagePairs()}
     </ScrollView>
   );
 };
