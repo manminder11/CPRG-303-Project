@@ -1,5 +1,12 @@
-import React, { useEffect } from 'react';
-import { StyleSheet, Image, ScrollView, View, Text, TouchableOpacity } from 'react-native';
+import React, { useEffect } from "react";
+import {
+  StyleSheet,
+  Image,
+  ScrollView,
+  View,
+  Text,
+  TouchableOpacity,
+} from "react-native";
 
 const Home = ({ navigation }) => {
   useEffect(() => {
@@ -7,13 +14,13 @@ const Home = ({ navigation }) => {
   }, []);
 
   const images = [
-    require('./assets/3rd.jpg'),
+    require("./assets/3rd.jpg"),
     <Text>manminder</Text>,
-    require('./assets/4th.jpg'),
-    require('./assets/5th.jpg'),
-    require('./assets/6th.jpg'),
-    require('./assets/sec.jpg'),
-    require('./assets/image.jpg'),
+    require("./assets/4th.jpg"),
+    require("./assets/5th.jpg"),
+    require("./assets/6th.jpg"),
+    require("./assets/sec.jpg"),
+    require("./assets/image.jpg"),
   ];
 
   const renderImagePairs = () => {
@@ -22,7 +29,9 @@ const Home = ({ navigation }) => {
       pairs.push(
         <View style={styles.imageRow} key={i}>
           <Image source={images[i]} style={styles.image} />
-          {images[i + 1] && <Image source={images[i + 1]} style={styles.image} />}
+          {images[i + 1] && (
+            <Image source={images[i + 1]} style={styles.image} />
+          )}
         </View>
       );
     }
@@ -31,8 +40,10 @@ const Home = ({ navigation }) => {
 
   return (
     <ScrollView contentContainerStyle={styles.container}>
-    
-      <TouchableOpacity style={styles.input} onPress={() => navigation.navigate('Search')}>
+      <TouchableOpacity
+        style={styles.input}
+        onPress={() => navigation.navigate("Search")}
+      >
         <Text style={styles.placeholder}>🔍where to go ?</Text>
       </TouchableOpacity>
       {renderImagePairs()}
@@ -43,9 +54,9 @@ const Home = ({ navigation }) => {
 const styles = StyleSheet.create({
   container: {
     flexGrow: 1,
-    justifyContent: 'flex-start',
-    alignItems: 'center',
-    backgroundColor: '#fff',
+    justifyContent: "flex-start",
+    alignItems: "center",
+    backgroundColor: "#fff",
     padding: 20,
   },
   title: {
@@ -54,19 +65,19 @@ const styles = StyleSheet.create({
   },
   input: {
     height: 40,
-    borderColor: 'gray',
+    borderColor: "gray",
     borderWidth: 1,
     marginBottom: 20,
     paddingHorizontal: 10,
-    width: '80%',
-    justifyContent: 'center',
+    width: "80%",
+    justifyContent: "center",
   },
   placeholder: {
-    color: 'gray',
+    color: "gray",
   },
   imageRow: {
-    flexDirection: 'row',
-    justifyContent: 'space-between',
+    flexDirection: "row",
+    justifyContent: "space-between",
     marginVertical: 10,
   },
   image: {
