@@ -1,18 +1,46 @@
-import React, { useState } from "react";
-import { View, Text, TextInput, Button, StyleSheet } from "react-native";
-import { useNavigation } from "@react-navigation/native";
+import React, { useState } from 'react';
+import {
+  View,
+  Text,
+  TextInput,
+  Button,
+  StyleSheet,
+  TouchableOpacity,
+  FlatList,
+} from 'react-native';
+import { useNavigation } from '@react-navigation/native';
 
 const Search = () => {
-  const [query, setQuery] = useState("");
+  const [query, setQuery] = useState('');
+  const [showHistory, setShowHistory] = useState(false);
+  const [history, setHistory] = useState([
+    'Calgary Tower',
+    "Prince's Island Park",
+    'Heritage Park',
+    'Calgary Zoo',
+    'Glenbow Museum',
+    'Fish Creek Provincial Park',
+    'Stephen Avenue Walk',
+  ]);
   const navigation = useNavigation();
 
   const handleSearch = () => {
-    setQuery(""); // Clear the input field
-    navigation.navigate("Map"); // Navigate to the Map screen
+    if (query && !history.includes(query)) {
+      setHistory([query, ...history]);
+    }
+    setQuery(''); // Clear the input field
+    setShowHistory(false);
+    navigation.navigate('Map'); // Navigate to the Map screen
   };
 
   const handleFocus = () => {
-    // No need to set show history state here
+    setShowHistory(true);
+  };
+
+  const handleHistoryPress = (item) => {
+    setQuery(item);
+    setShowHistory(false);
+    navigation.navigate('Map'); // Navigate to the Map screen
   };
 
   return (
@@ -26,6 +54,18 @@ const Search = () => {
         onFocus={handleFocus}
         onSubmitEditing={handleSearch} // Handle enter key press
       />
+      {showHistory && (
+        <FlatList
+          data={history}
+          keyExtractor={(item, index) => index.toString()}
+          renderItem={({ item }) => (
+            <TouchableOpacity onPress={() => handleHistoryPress(item)}>
+              <Text style={styles.historyItem}>{item}</Text>
+            </TouchableOpacity>
+          )}
+          style={styles.historyList}
+        />
+      )}
       <Button title="Search" onPress={handleSearch} />
     </View>
   );
@@ -34,9 +74,9 @@ const Search = () => {
 const styles = StyleSheet.create({
   container: {
     flex: 1,
-    justifyContent: "center",
-    alignItems: "center",
-    backgroundColor: "#fff",
+    justifyContent: 'center',
+    alignItems: 'center',
+    backgroundColor: '#fff',
   },
   title: {
     fontSize: 24,
@@ -44,24 +84,22 @@ const styles = StyleSheet.create({
   },
   input: {
     height: 40,
-    borderColor: "gray",
+    borderColor: 'gray',
     borderWidth: 1,
     marginBottom: 20,
     paddingHorizontal: 10,
-    width: "80%",
+    width: '80%',
+  },
+  historyList: {
+    width: '80%',
+    maxHeight: 100,
+    marginBottom: 20,
+  },
+  historyItem: {
+    padding: 10,
+    borderBottomWidth: 1,
+    borderBottomColor: 'gray',
   },
 });
 
 export default Search;
-const fakeHistory = [
-  "Calgary Tower",
-  "Prince's Island Park",
-  "Calgary Zoo",
-  "Heritage Park",
-  "Glenbow Museum",
-  "Fish Creek Provincial Park",
-  "Spruce Meadows",
-  "The Military Museums",
-  "Fort Calgary",
-  "Nose Hill Park",
-];
