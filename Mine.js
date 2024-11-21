@@ -63,7 +63,7 @@ export default function MinePage() {
     };
   return (
     <ImageBackground
-      source="..//assets//background3.jpg" // Replace with your image path
+      source="..//..//assets//background3.jpg" // Replace with your image path
       resizeMode="cover"
       style={styles.background}
     >
@@ -80,10 +80,12 @@ export default function MinePage() {
           </View>
           <View style={styles.rowContainer}>
             <View style={styles.halfContainer}>
+              <Text style={styles.header}>Duration: </Text>
               <Text style={styles.timer}>1 :45 :36</Text>
             </View>
             <View style={styles.halfContainer}>
-              <Text style={styles.cost}>Cost: $20.00</Text>
+              <Text style={styles.header}>Cost: </Text>
+              <Text style={styles.cost}>$20.00</Text>
             </View>
           </View>
           <View style={styles.buttonContainer}>
@@ -99,8 +101,8 @@ export default function MinePage() {
 
 const styles = StyleSheet.create({
   background: {
-    flex: 1,
-    justifyContent: "center",
+    //flex: 1,
+    //justifyContent: "center",
     //alignItems: "center",
     width: "100%",
     height: "100%", // 确保背景填满
