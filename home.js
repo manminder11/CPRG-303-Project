@@ -31,7 +31,7 @@ const Home = ({ navigation }) => {
 
   return (
     <ScrollView contentContainerStyle={styles.container}>
-      <Text style={styles.title}>Home Page</Text>
+    
       <TouchableOpacity style={styles.input} onPress={() => navigation.navigate('Search')}>
         <Text style={styles.placeholder}>🔍where to go ?</Text>
       </TouchableOpacity>
