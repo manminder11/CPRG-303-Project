@@ -1,13 +1,9 @@
 import React, { useEffect } from 'react';
-import { Text, Button, StyleSheet, Image, ScrollView, View } from 'react-native';
+import { StyleSheet, Image, ScrollView, View, TextInput, Text } from 'react-native';
 
 const Home = ({ navigation }) => {
-  const handleSearch = () => {
-    navigation.navigate('Search');
-  };
-
   useEffect(() => {
-  
+    // Any side effects can be handled here
   }, []);
 
   const images = [
@@ -33,14 +29,13 @@ const Home = ({ navigation }) => {
   };
 
   return (
-    <ScrollView 
-      contentContainerStyle={styles.container} 
-      style={{ flex: 1 }}
-      showsVerticalScrollIndicator={false}
-      keyboardShouldPersistTaps="handled"
-    >
+    <ScrollView contentContainerStyle={styles.container}>
       <Text style={styles.title}>Home Page</Text>
-      <Button title="Search" onPress={handleSearch} />
+      <TextInput
+        style={styles.input}
+        placeholder="Click here"
+        onFocus={() => navigation.navigate('Search')}
+      />
       {renderImagePairs()}
     </ScrollView>
   );
@@ -57,6 +52,14 @@ const styles = StyleSheet.create({
   title: {
     fontSize: 24,
     marginBottom: 20,
+  },
+  input: {
+    height: 40,
+    borderColor: 'gray',
+    borderWidth: 1,
+    marginBottom: 20,
+    paddingHorizontal: 10,
+    width: '80%',
   },
   imageRow: {
     flexDirection: 'row',
