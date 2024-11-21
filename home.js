@@ -8,7 +8,7 @@ const Home = ({ navigation }) => {
 
   const images = [
     require('./assets/3rd.jpg'),
-    <Text>Some text</Text>,
+    <Text>manminder</Text>,
     require('./assets/4th.jpg'),
     require('./assets/5th.jpg'),
     require('./assets/6th.jpg'),
@@ -33,7 +33,7 @@ const Home = ({ navigation }) => {
     <ScrollView contentContainerStyle={styles.container}>
       <Text style={styles.title}>Home Page</Text>
       <TouchableOpacity style={styles.input} onPress={() => navigation.navigate('Search')}>
-        <Text style={styles.placeholder}>Type where</Text>
+        <Text style={styles.placeholder}>🔍where to go ?</Text>
       </TouchableOpacity>
       {renderImagePairs()}
     </ScrollView>
