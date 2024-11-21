@@ -8,6 +8,7 @@ const Home = ({ navigation }) => {
 
   const images = [
     require('./assets/3rd.jpg'),
+    <Text>Some text</Text>,
     require('./assets/4th.jpg'),
     require('./assets/5th.jpg'),
     require('./assets/6th.jpg'),
