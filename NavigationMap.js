@@ -2,9 +2,9 @@ import React, { useState } from 'react'
 import {
     Alert,
     Button,
-    Image,
     ImageBackground,
     Modal,
+    Platform,
     StyleSheet,
     Text,
     TextInput,
@@ -40,22 +40,21 @@ export default function NavigationMap() {
             imageStyle={styles.image} // Optional: To style the image itself
         >
             <TouchableOpacity
-                onPress={() =>
-                    Alert.alert(
-                        'Confirm parking', // Title of the alert
-                        'Did you park here?', // Message
-                        [{
-                            text: 'Cancel', // Button text
-                            onPress: () => console.log('Cancel Pressed'), // Action for "Cancel"
-                            style: 'cancel' // Styling for the "Cancel" button
-                        }, {
-                            text: 'OK', // Button text
-                            onPress: () => {
-                                showPrompt()
-                            } // Action for "OK"
-                        }],
-                        { cancelable: false }
-                    )}>
+                onPress={() => Alert.alert(
+                    'Confirm parking', // Title of the alert
+                    'Did you park here?', // Message
+                    [{
+                        text: 'Cancel', // Button text
+                        onPress: () => console.log('Cancel Pressed'), // Action for "Cancel"
+                        style: 'cancel' // Styling for the "Cancel" button
+                    }, {
+                        text: 'OK', // Button text
+                        onPress: () => {
+                            showPrompt()
+                        } // Action for "OK"
+                    }],
+                    { cancelable: false } // Whether the alert can be dismissed by tapping outside
+                )}>
                 <Text
                     style={{
                         borderColor: 'green',
@@ -65,7 +64,8 @@ export default function NavigationMap() {
                         width: 100,
                         color: 'white',
                         textAlign: 'center',
-                        marginLeft: 250
+                        marginLeft: 250,
+                        marginTop: 550
                     }}>
                     Exit
                 </Text>
@@ -98,9 +98,12 @@ export default function NavigationMap() {
 const styles = StyleSheet.create({
     imageBackground: {
         flex: 1,
-        resizeMode: 'full', // Makes sure the image covers the container
-        justifyContent: 'flex-end', // Aligns content (text) to the bottom
-        alignItems: 'center' // Centers text horizontally
+        resizeMode: 'cover', // Makes sure the image covers the container
+        justifyContent: 'center', // Aligns content (text) to the bottom
+        alignItems: 'center', // Centers text horizontally
+        alignSelf: 'center',
+        width: Platform.OS === 'web' ? '500' : '100%',
+        height: '100%'
     },
     image: {
         // Optional: Add styles for the image itself (e.g., borderRadius, etc.)
