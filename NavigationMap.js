@@ -46,8 +46,7 @@ const NavigationMap = () => {
   )}>
       <Text style={{borderColor:'green',backgroundColor:'green',borderWidth:1,padding:10,
         width:100,color:'white',textAlign:'center',marginLeft:250}}>Exit</Text>
-      <Text style={{borderColor:'green',backgroundColor:'green',borderWidth:1,padding:10,
-        width:100,color:'white',textAlign:'center',marginTop:10,marginLeft:250}}>Start</Text>
+      
     </TouchableOpacity>
     <View>
     <Modal
@@ -57,7 +56,7 @@ const NavigationMap = () => {
       >
         <View style={styles.modalBackground}>
           <View style={styles.modalContainer}>
-            <Text style={styles.title}>What this the unit price parking?</Text>
+            <Text style={styles.title}>What is the hourly price for this parking lot?</Text>
             <TextInput
               style={styles.input}
               placeholder="type here your unit price"
