@@ -1,11 +1,25 @@
 import React from 'react';
 import { View, Text, StyleSheet } from 'react-native';
 
-const ParkingSpots = () => {
+const parkingLocations = {
+  'Calgary Tower': ['Parking Lot A', 'Parking Lot B', 'Parking Lot C'],
+  "Prince's Island Park": ['Parking Lot D', 'Parking Lot E'],
+  'Heritage Park': ['Parking Lot F', 'Parking Lot G'],
+  'Calgary Zoo': ['Parking Lot H', 'Parking Lot I'],
+  'Glenbow Museum': ['Parking Lot J', 'Parking Lot K'],
+  'Fish Creek Provincial Park': ['Parking Lot L', 'Parking Lot M'],
+  'Stephen Avenue Walk': ['Parking Lot N', 'Parking Lot O'],
+};
+
+const ParkingSpots = ({ route }) => {
+  const { location } = route.params;
+
   return (
     <View style={styles.container}>
-      <Text style={styles.title}>Parking Spots</Text>
-      {/* Add your content here */}
+      <Text style={styles.title}>Parking Spots for {location}</Text>
+      {parkingLocations[location] && parkingLocations[location].map((spot, index) => (
+        <Text key={index} style={styles.parkingText}>{spot}</Text>
+      ))}
     </View>
   );
 };
@@ -16,10 +30,15 @@ const styles = StyleSheet.create({
     justifyContent: 'center',
     alignItems: 'center',
     backgroundColor: '#fff',
+    padding: 20,
   },
   title: {
     fontSize: 24,
     marginBottom: 20,
+  },
+  parkingText: {
+    fontSize: 18,
+    marginVertical: 5,
   },
 });
 

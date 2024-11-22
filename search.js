@@ -1,4 +1,4 @@
-import React, { useState } from 'react';
+import React, { useState } from "react";
 import {
   View,
   Text,
@@ -7,20 +7,20 @@ import {
   StyleSheet,
   TouchableOpacity,
   FlatList,
-} from 'react-native';
-import { useNavigation } from '@react-navigation/native';
+} from "react-native";
+import { useNavigation } from "@react-navigation/native";
 
 const Search = () => {
-  const [query, setQuery] = useState('');
+  const [query, setQuery] = useState("");
   const [showHistory, setShowHistory] = useState(false);
   const [history, setHistory] = useState([
-    'Calgary Tower',
+    "Calgary Tower",
     "Prince's Island Park",
-    'Heritage Park',
-    'Calgary Zoo',
-    'Glenbow Museum',
-    'Fish Creek Provincial Park',
-    'Stephen Avenue Walk',
+    "Heritage Park",
+    "Calgary Zoo",
+    "Glenbow Museum",
+    "Fish Creek Provincial Park",
+    "Stephen Avenue Walk",
   ]);
   const navigation = useNavigation();
 
@@ -28,9 +28,9 @@ const Search = () => {
     if (query && !history.includes(query)) {
       setHistory([query, ...history]);
     }
-    setQuery(''); // Clear the input field
+    setQuery(""); // Clear the input field
     setShowHistory(false);
-    navigation.navigate('ParkingSpots'); // Navigate to the ParkingSpots screen
+    navigation.navigate("ParkingSpots", { location: query }); // Navigate to the ParkingSpots screen with the location
   };
 
   const handleFocus = () => {
@@ -40,7 +40,7 @@ const Search = () => {
   const handleHistoryPress = (item) => {
     setQuery(item);
     setShowHistory(false);
-    navigation.navigate('ParkingSpots'); // Navigate to the ParkingSpots screen
+    navigation.navigate("ParkingSpots", { location: item }); // Navigate to the ParkingSpots screen with the location
   };
 
   return (
@@ -74,9 +74,9 @@ const Search = () => {
 const styles = StyleSheet.create({
   container: {
     flex: 1,
-    justifyContent: 'center',
-    alignItems: 'center',
-    backgroundColor: '#fff',
+    justifyContent: "center",
+    alignItems: "center",
+    backgroundColor: "#fff",
   },
   title: {
     fontSize: 24,
@@ -84,21 +84,21 @@ const styles = StyleSheet.create({
   },
   input: {
     height: 40,
-    borderColor: 'gray',
+    borderColor: "gray",
     borderWidth: 1,
     marginBottom: 20,
     paddingHorizontal: 10,
-    width: '80%',
+    width: "80%",
   },
   historyList: {
-    width: '80%',
+    width: "80%",
     maxHeight: 100,
     marginBottom: 20,
   },
   historyItem: {
     padding: 10,
     borderBottomWidth: 1,
-    borderBottomColor: 'gray',
+    borderBottomColor: "gray",
   },
 });
 

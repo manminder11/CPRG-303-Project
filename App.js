@@ -6,8 +6,6 @@ import Home from './home'; // Corrected import path for the Home component
 import Search from './search'; // Corrected import path for the Search component
 import ParkingSpots from './parkingspots'; // Corrected import path for the ParkingSpots component
 
-import ParkingSpots from './parkingspots';
-
 const Tab = createBottomTabNavigator();
 
 const App = () => {
