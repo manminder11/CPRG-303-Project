@@ -30,7 +30,7 @@ const Search = () => {
     }
     setQuery(''); // Clear the input field
     setShowHistory(false);
-    navigation.navigate('Map'); // Navigate to the Map screen
+    navigation.navigate('ParkingSpots'); // Navigate to the ParkingSpots screen
   };
 
   const handleFocus = () => {
@@ -40,7 +40,7 @@ const Search = () => {
   const handleHistoryPress = (item) => {
     setQuery(item);
     setShowHistory(false);
-    navigation.navigate('Map'); // Navigate to the Map screen
+    navigation.navigate('ParkingSpots'); // Navigate to the ParkingSpots screen
   };
 
   return (

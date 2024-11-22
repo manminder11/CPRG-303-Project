@@ -4,6 +4,7 @@ import { NavigationContainer } from '@react-navigation/native';
 import { createBottomTabNavigator } from '@react-navigation/bottom-tabs';
 import Home from './home'; // Corrected import path for the Home component
 import Search from './search'; // Corrected import path for the Search component
+import ParkingSpots from './parkingspots'; // Corrected import path for the ParkingSpots component
 
 import ParkingSpots from './parkingspots';
 
@@ -15,7 +16,7 @@ const App = () => {
       <Tab.Navigator>
         <Tab.Screen name="Home" component={Home} />
         <Tab.Screen name="Search" component={Search} />
-        <Tab.Screen name="Parking Spots" component={ParkingSpots} />  
+        <Tab.Screen name="Parking Spots" component={ParkingSpots} />
       </Tab.Navigator>
     </NavigationContainer>
   );
