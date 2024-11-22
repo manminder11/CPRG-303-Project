@@ -22,15 +22,7 @@ const Home = ({ navigation }) => {
     require("./assets/sec.jpg"),
     require("./assets/image.jpg"),
   ];
-  const captions = [
-    "Caption for 3rd.jpg",
-    "Caption for manminder",
-    "Caption for 4th.jpg",
-    "Caption for 5th.jpg",
-    "Caption for 6th.jpg",
-    "Caption for sec.jpg",
-    "Caption for image.jpg",
-  ];
+
 
   const renderImagePairs = () => {
     const pairs = [];
@@ -57,9 +49,7 @@ const Home = ({ navigation }) => {
       </TouchableOpacity>
       {renderImagePairs()}
        
-      {captions.map((caption, index) => (
-        <Text key={index}>{caption}</Text>
-      ))}
+     
     </ScrollView>
   );
 };
