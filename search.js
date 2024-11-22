@@ -28,9 +28,10 @@ const Search = () => {
     if (query && !history.includes(query)) {
       setHistory([query, ...history]);
     }
+    const searchQuery = query; // Store the query
     setQuery(""); // Clear the input field
     setShowHistory(false);
-    navigation.navigate("ParkingSpots", { location: query }); // Navigate to the ParkingSpots screen with the location
+    navigation.navigate("ParkingSpots", { location: searchQuery }); // Navigate to the ParkingSpots screen with the location
   };
 
   const handleFocus = () => {
@@ -48,7 +49,7 @@ const Search = () => {
       <Text style={styles.title}>Search Page</Text>
       <TextInput
         style={styles.input}
-        placeholder="Type where"
+        placeholder="where to go?" // Placeholder text
         value={query}
         onChangeText={setQuery}
         onFocus={handleFocus}
@@ -67,6 +68,9 @@ const Search = () => {
         />
       )}
       <Button title="Search" onPress={handleSearch} />
+    <TouchableOpacity onPress={() => navigation.navigate("ParkingSpots")}>
+      <Text style={styles.linkText}>View All Parking Spots</Text>
+    </TouchableOpacity>
     </View>
   );
 };
