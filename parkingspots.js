@@ -11,19 +11,14 @@ const parkingLocations = {
   "Stephen Avenue Walk": ["Parking Lot N", "Parking Lot O"],
 };
 
-const ParkingSpots = () => {
+const ParkingSpots = ({ route }) => {
+  const { location } = route.params;
+
   return (
     <ScrollView contentContainerStyle={styles.container}>
-      <Text style={styles.title}>Parking Spots</Text>
-      {Object.keys(parkingLocations).map((location, index) => (
-        <View key={index}>
-          <Text style={styles.locationText}>{location}</Text>
-          {parkingLocations[location].map((spot, index) => (
-            <Text key={index} style={styles.parkingText}>
-              {spot}
-            </Text>
-          ))}
-        </View>
+      <Text style={styles.title}>Parking Spots for {location}</Text>
+      {parkingLocations[location] && parkingLocations[location].map((spot, index) => (
+        <Text key={index} style={styles.parkingText}>{spot}</Text>
       ))}
     </ScrollView>
   );
@@ -40,11 +35,6 @@ const styles = StyleSheet.create({
   title: {
     fontSize: 24,
     marginBottom: 20,
-  },
-  locationText: {
-    fontSize: 20,
-    marginTop: 10,
-    fontWeight: "bold",
   },
   parkingText: {
     fontSize: 18,
