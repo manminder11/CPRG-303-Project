@@ -9,7 +9,7 @@ import {
     Text,
     TextInput,
     TouchableOpacity,
-    View,
+    View
 } from 'react-native'
 
 export default function NavigationMap() {
@@ -40,21 +40,22 @@ export default function NavigationMap() {
             imageStyle={styles.image} // Optional: To style the image itself
         >
             <TouchableOpacity
-                onPress={() => Alert.alert(
-                    'Confirm parking', // Title of the alert
-                    'Did you park here?', // Message
-                    [{
-                        text: 'Cancel', // Button text
-                        onPress: () => console.log('Cancel Pressed'), // Action for "Cancel"
-                        style: 'cancel', // Styling for the "Cancel" button
-                    }, {
-                        text: 'OK', // Button text
-                        onPress: () => {
-                            showPrompt()
-                        }, // Action for "OK"
-                    }],
-                    { cancelable: false }
-                )}>
+                onPress={() =>
+                    Alert.alert(
+                        'Confirm parking', // Title of the alert
+                        'Did you park here?', // Message
+                        [{
+                            text: 'Cancel', // Button text
+                            onPress: () => console.log('Cancel Pressed'), // Action for "Cancel"
+                            style: 'cancel' // Styling for the "Cancel" button
+                        }, {
+                            text: 'OK', // Button text
+                            onPress: () => {
+                                showPrompt()
+                            } // Action for "OK"
+                        }],
+                        { cancelable: false }
+                    )}>
                 <Text
                     style={{
                         borderColor: 'green',
@@ -64,7 +65,7 @@ export default function NavigationMap() {
                         width: 100,
                         color: 'white',
                         textAlign: 'center',
-                        marginLeft: 250,
+                        marginLeft: 250
                     }}>
                     Exit
                 </Text>
@@ -99,7 +100,7 @@ const styles = StyleSheet.create({
         flex: 1,
         resizeMode: 'full', // Makes sure the image covers the container
         justifyContent: 'flex-end', // Aligns content (text) to the bottom
-        alignItems: 'center', // Centers text horizontally
+        alignItems: 'center' // Centers text horizontally
     },
     image: {
         // Optional: Add styles for the image itself (e.g., borderRadius, etc.)
@@ -111,10 +112,10 @@ const styles = StyleSheet.create({
         textAlign: 'left', // Centers the text horizontally
         borderColor: 'black',
         borderWidth: 2,
-        width: '100%',
+        width: '100%'
     },
     modalBackground: { flex: 1, justifyContent: 'center', alignItems: 'center', backgroundColor: 'rgba(0,0,0,0.5)' },
     modalContainer: { backgroundColor: 'white', padding: 20, borderRadius: 10, width: '80%', alignItems: 'center' },
     modalTitle: { fontSize: 18, marginBottom: 10 },
-    input: { borderWidth: 1, borderColor: 'gray', width: '100%', padding: 10, marginBottom: 20, borderRadius: 5 },
+    input: { borderWidth: 1, borderColor: 'gray', width: '100%', padding: 10, marginBottom: 20, borderRadius: 5 }
 })
