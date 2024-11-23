@@ -42,7 +42,7 @@ export default function NavigationMap() {
             <TouchableOpacity
                 onPress={() => Alert.alert(
                     'Confirm parking', // Title of the alert
-                    'Did you park here?', // Message
+                    'Did you want to park here?', // Message
                     [{
                         text: 'Cancel', // Button text
                         onPress: () => console.log('Cancel Pressed'), // Action for "Cancel"
@@ -74,15 +74,13 @@ export default function NavigationMap() {
                 <Modal visible={modalVisible} animationType='slide' transparent={true}>
                     <View style={styles.modalBackground}>
                         <View style={styles.modalContainer}>
-                            <Text style={styles.title}>
-                                What is the hourly price for this parking lot?
-                            </Text>
+                            <Text>What is the hourly price for this parking lot?</Text>
                             <TextInput
                                 style={styles.input}
                                 placeholder='type here your unit price'
                                 value={inputText}
-                                onChangeText={handleInputChange} />
-
+                                onChangeText={handleInputChange}
+                            />
                             <View style={{ flexDirection: 'row', justifyContent: 'space-between', width: '100%' }}>
                                 <Button title='OK' onPress={handleSubmit} color='green' />
                                 <Button title='Cancel' onPress={handleCancel} color='green' />
