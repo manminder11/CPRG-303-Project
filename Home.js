@@ -1,6 +1,9 @@
-import { Text } from "react-native";
+import { Text } from 'react-native'
+
 export default function HomePage() {
-  return (
-    <Text>search page!</Text>
-  );
+    return (
+        <Text>
+            search page!
+        </Text>
+    )
 }
