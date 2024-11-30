@@ -9,6 +9,10 @@
   <uses-permission android:name="android.permission.WRITE_EXTERNAL_STORAGE"/>
   <!-- END OPTIONAL PERMISSIONS -->
 
+  <!--LOCATION 28112024-->
+  <uses-permission android:name="android.permission.ACCESS_COARSE_LOCATION" />
+  <uses-permission android:name="android.permission.ACCESS_FINE_LOCATION" />
+
   <queries>
     <!-- Support checking for http(s) links via the Linking API -->
     <intent>

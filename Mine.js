@@ -1,13 +1,20 @@
 import { Ionicons } from '@expo/vector-icons'
 import { useNavigation } from '@react-navigation/native'
-import React from 'react'
+import React, { useEffect } from 'react'
 import { useState } from 'react'
 import { Alert, ImageBackground, StyleSheet, Text, TouchableOpacity, View } from 'react-native'
 
-export default function MinePage() {
-    const [isParkingDone, setIsParkingDone] = useState(false)
-    const [isConfirmationVisible, setIsConfirmationVisible] = useState(false)
-    const navigation = useNavigation()
+export default function MinePage({route}) {
+    const [isParkingDone, setIsParkingDone] = useState(false);
+    const [isConfirmationVisible, setIsConfirmationVisible] = useState(false);
+    const navigation = useNavigation();
+    //GET DATA FROM NAVIGATION
+    const { data } = route.params;
+    /*
+    console.log(data.location);
+    console.log(data.time);
+    console.log(data.price);
+    */
     const handleNavigate = () => {
         navigation.navigate('Navi') // 导航到Home页面
     }
@@ -39,6 +46,7 @@ export default function MinePage() {
             },
         }], { cancelable: false })
     }
+    
     return (
         <ImageBackground
             source='..//..//assets//background3.jpg' // Replace with your image path
@@ -52,7 +60,7 @@ export default function MinePage() {
                         </Text>
                         <TouchableOpacity onPress={handleNavigate} style={styles.row}>
                             <Text style={styles.address}>
-                                Southern Alberta Institute of Technology
+                                {data.location}
                             </Text>
                             <Ionicons name='arrow-forward-circle' size={30} color='#007BFF' />
                         </TouchableOpacity>
@@ -63,7 +71,7 @@ export default function MinePage() {
                                 Duration:
                             </Text>
                             <Text style={styles.timer}>
-                                1 :45 :36
+                                {data.time}
                             </Text>
                         </View>
                         <View style={styles.halfContainer}>
@@ -71,7 +79,7 @@ export default function MinePage() {
                                 Cost:
                             </Text>
                             <Text style={styles.cost}>
-                                $20.00
+                                ${data.price}
                             </Text>
                         </View>
                     </View>
