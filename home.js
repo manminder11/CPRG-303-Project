@@ -1,19 +1,32 @@
-import React from "react";
-import { View, TextInput, StyleSheet, TouchableOpacity } from "react-native";
+import React, { useState, useRef } from "react";
+import {
+  View,
+  TextInput,
+  StyleSheet,
+  TouchableOpacity,
+  Text,
+} from "react-native";
 import { useNavigation } from "@react-navigation/native";
 
-const HomeScreen = () => {
+const Home = () => {
   const navigation = useNavigation();
+  const [searchQuery, setSearchQuery] = useState("");
+  const inputRef = useRef(null);
+
+  const handlePlaceholderClick = () => {
+    navigation.navigate("Search");
+  };
 
   return (
     <View style={styles.container}>
-      <TouchableOpacity onPress={() => navigation.navigate("Search")}>
-        <TextInput
+      <View style={styles.searchInputWrapper}>
+        <TouchableOpacity
           style={styles.searchInput}
-          placeholder="Search..."
-          editable={false} // Make the TextInput non-editable
-        />
-      </TouchableOpacity>
+          onPress={handlePlaceholderClick}
+        >
+          <Text style={styles.placeholder}>Search...</Text>
+        </TouchableOpacity>
+      </View>
     </View>
   );
 };
@@ -24,13 +37,27 @@ const styles = StyleSheet.create({
     justifyContent: "center",
     alignItems: "center",
   },
+  searchInputWrapper: {
+    width: "80%",
+    position: "relative",
+  },
   searchInput: {
     height: 40,
     borderColor: "gray",
     borderWidth: 1,
     paddingLeft: 10,
-    width: "80%",
+    width: "100%",
+    justifyContent: "center",
+  },
+  placeholderWrapper: {
+    position: "absolute",
+    left: 10,
+    top: 10,
+    zIndex: 1,
+  },
+  placeholder: {
+    color: "gray",
   },
 });
 
-export default HomeScreen;
+export default Home;
