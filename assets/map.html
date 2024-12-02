@@ -1,0 +1,127 @@
+<!DOCTYPE html>
+<html>
+
+<head>
+    <title>Google Maps Nearby Locations</title>
+    <script async
+        src="https://maps.googleapis.com/maps/api/js?key=AIzaSyBtTTGnlIWNQjW62KpZ7udEFs3UnrQWHd0&libraries=places&callback=initMap"></script>
+    <style>
+        /* Add some basic styling */
+        #map {
+            height: 100%;
+        }
+
+        html,
+        body {
+            height: 100%;
+            margin: 0;
+            padding: 0;
+        }
+
+        #pac-input {
+            margin-top: 10px;
+            padding: 5px;
+            width: 300px;
+        }
+    </style>
+</head>
+
+<body>
+    <input id="pac-input" class="controls" type="text" placeholder="Search Box" />
+    <div id="map"></div>
+    <script>
+        async function initMap() {
+            const map = new google.maps.Map(document.getElementById("map"), {
+                center: { lat: 52.369358, lng: 4.889258 },
+                zoom: 13,
+                mapTypeId: "roadmap",
+            });
+
+            const input = document.getElementById("pac-input");
+            const searchBox = new google.maps.places.SearchBox(input);
+
+            map.controls[google.maps.ControlPosition.TOP_LEFT].push(input);
+            map.addListener("bounds_changed", () => {
+                searchBox.setBounds(map.getBounds());
+            });
+
+            let markers = [];
+
+            searchBox.addListener("places_changed", async () => {
+                const places = searchBox.getPlaces();
+
+                if (places.length == 0) {
+                    return;
+                }
+
+                markers.forEach((marker) => {
+                    marker.setMap(null);
+                });
+                markers = [];
+
+                const bounds = new google.maps.LatLngBounds();
+
+                places.forEach((place) => {
+                    if (!place.geometry || !place.geometry.location) {
+                        console.log("Returned place contains no geometry");
+                        return;
+                    }
+
+                    const icon = {
+                        url: place.icon,
+                        size: new google.maps.Size(71, 71),
+                        origin: new google.maps.Point(0, 0),
+                        anchor: new google.maps.Point(17, 34),
+                        scaledSize: new google.maps.Size(25, 25),
+                    };
+
+                    markers.push(
+                        new google.maps.Marker({
+                            map,
+                            icon,
+                            title: place.name,
+                            position: place.geometry.location,
+                        })
+                    );
+                    if (place.geometry.viewport) {
+                        bounds.union(place.geometry.viewport);
+                    } else {
+                        bounds.extend(place.geometry.location);
+                    }
+                });
+                map.fitBounds(bounds);
+
+                // Perform a nearby search
+                const center = new google.maps.LatLng(52.369358, 4.889258);
+                const request = {
+                    fields: ["name", "geometry", "business_status"],
+                    locationBias: {
+                        radius: 500,
+                        center: center,
+                    },
+                    type: ["restaurant"],
+                    rankBy: google.maps.places.RankBy.PROMINENCE,
+                };
+
+                const service = new google.maps.places.PlacesService(map);
+                service.nearbySearch(request, (results, status) => {
+                    if (status !== "OK" || !results) return;
+
+                    results.forEach((place) => {
+                        if (!place.geometry || !place.geometry.location) return;
+
+                        const marker = new google.maps.Marker({
+                            map,
+                            position: place.geometry.location,
+                            title: place.name,
+                        });
+
+                        markers.push(marker);
+                    });
+                });
+            });
+        }
+    </script>
+</body>
+
+</html>

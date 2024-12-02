@@ -1,16 +1,9 @@
-import React, { useState, useRef } from "react";
-import {
-  View,
-  TextInput,
-  StyleSheet,
-  TouchableOpacity,
-  Text,
-} from "react-native";
+import React, { useRef } from "react";
+import { View, StyleSheet, TouchableOpacity, Text } from "react-native";
 import { useNavigation } from "@react-navigation/native";
 
 const Home = () => {
   const navigation = useNavigation();
-  const [searchQuery, setSearchQuery] = useState("");
   const inputRef = useRef(null);
 
   const handlePlaceholderClick = () => {
@@ -48,12 +41,6 @@ const styles = StyleSheet.create({
     paddingLeft: 10,
     width: "100%",
     justifyContent: "center",
-  },
-  placeholderWrapper: {
-    position: "absolute",
-    left: 10,
-    top: 10,
-    zIndex: 1,
   },
   placeholder: {
     color: "gray",

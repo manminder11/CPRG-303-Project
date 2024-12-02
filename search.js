@@ -1,99 +1,104 @@
-import React from "react";
+import React, { useState } from "react";
 import {
   View,
   TextInput,
+  FlatList,
   TouchableOpacity,
   Text,
   StyleSheet,
 } from "react-native";
 import { useNavigation } from "@react-navigation/native";
 
-const styles = StyleSheet.create({
-  container: {
-    alignItems: "center",
-    justifyContent: "center",
-    padding: 20,
-    backgroundColor: "#f8f8f8",
-    flex: 1,
-  },
-  searchBar: {
-    height: 40,
-    borderColor: "gray",
-    borderWidth: 1,
-    borderRadius: 5,
-    paddingHorizontal: 10,
-    marginBottom: 20,
-    width: "80%",
-    backgroundColor: "#fff",
-    shadowColor: "#000",
-    shadowOffset: { width: 0, height: 2 },
-    shadowOpacity: 0.8,
-    shadowRadius: 2,
-    elevation: 5,
-  },
-  button: {
-    width: "80%",
-    backgroundColor: "#007BFF",
-    paddingVertical: 10,
-    borderRadius: 5,
-    alignItems: "center",
-    shadowColor: "#000",
-    shadowOffset: { width: 0, height: 2 },
-    shadowOpacity: 0.8,
-    shadowRadius: 2,
-    elevation: 5,
-    transition: "background-color 0.3s",
-  },
-  buttonPressed: {
-    width: "80%",
-    backgroundColor: "#0056b3",
-    paddingVertical: 10,
-    borderRadius: 5,
-    alignItems: "center",
-    shadowColor: "#000",
-    shadowOffset: { width: 0, height: 2 },
-    shadowOpacity: 0.8,
-    shadowRadius: 2,
-    elevation: 5,
-    transition: "background-color 0.3s",
-  },
-  buttonText: {
-    color: "#000",
-    fontWeight: "bold",
-  },
-});
-
-const SearchBar = ({ searchQuery, setSearchQuery, handleSearch }) => {
-  const [isPressed, setIsPressed] = React.useState(false);
+const SearchComponent = () => {
+  const [searchQuery, setSearchQuery] = useState(""); // Store the input
+  const [results, setResults] = useState([]); // Store the fetched results
   const navigation = useNavigation();
 
-  const handlePressIn = () => {
-    setIsPressed(true);
+  // Fetch data from the API when the user types
+  const fetchSearchResults = async (query) => {
+    if (!query) {
+      setResults([]); // Clear results if the input is empty
+      return;
+    }
+    try {
+      const response = await fetch(
+        `https://maps.googleapis.com/maps/api/place/textsearch/json?query=${query}&type=parking&key=AIzaSyDKswxdCGdjJM8S3d-JlHoR36aw5QhBgj4`
+      );
+      if (!response.ok) {
+        throw new Error(`HTTP error! status: ${response.status}`);
+      }
+      const data = await response.json();
+      setResults(data.results); // Update state with the fetched results
+    } catch (error) {
+      console.error("Error fetching search results:", error);
+    }
   };
 
-  const handlePressOut = () => {
-    setIsPressed(false);
-    handleSearch();
-    navigation.navigate("Parking");
+  const handleSearch = () => {
+    fetchSearchResults(searchQuery);
+  };
+
+  const handleResultClick = (item) => {
+    navigation.navigate("Parking", { place: item });
   };
 
   return (
     <View style={styles.container}>
+      {/* Search bar */}
       <TextInput
-        style={styles.searchBar}
-        placeholder="Search..."
+        style={styles.input}
+        placeholder="Search for parking locations..."
         value={searchQuery}
         onChangeText={setSearchQuery}
       />
-      <TouchableOpacity
-        style={isPressed ? styles.buttonPressed : styles.button}
-        onPressIn={handlePressIn}
-        onPressOut={handlePressOut}
-      >
+
+      {/* Search button */}
+      <TouchableOpacity style={styles.button} onPress={handleSearch}>
         <Text style={styles.buttonText}>Search</Text>
       </TouchableOpacity>
+
+      {/* Display results */}
+      <FlatList
+        data={results}
+        keyExtractor={(item, index) => index.toString()}
+        renderItem={({ item }) => (
+          <TouchableOpacity
+            style={styles.resultItem}
+            onPress={() => handleResultClick(item)}
+          >
+            <Text>{item.name}</Text>
+            <Text style={styles.endpoint}>{item.formatted_address}</Text>
+          </TouchableOpacity>
+        )}
+      />
     </View>
   );
 };
 
-export default SearchBar;
+const styles = StyleSheet.create({
+  container: { flex: 1, padding: 20, backgroundColor: "#f8f8f8" },
+  input: {
+    height: 40,
+    borderColor: "gray",
+    borderWidth: 1,
+    borderRadius: 5,
+    marginBottom: 20,
+    paddingHorizontal: 10,
+  },
+  button: {
+    backgroundColor: "#007BFF",
+    paddingVertical: 10,
+    paddingHorizontal: 20,
+    borderRadius: 5,
+    alignItems: "center",
+    marginBottom: 20,
+  },
+  buttonText: {
+    color: "#fff",
+    fontWeight: "bold",
+  },
+  resultItem: { padding: 10, borderBottomWidth: 1, borderBottomColor: "#ddd" },
+  endpoint: { fontSize: 12, color: "gray" },
+});
+
+export default SearchComponent;
