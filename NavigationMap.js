@@ -15,7 +15,8 @@ import {
 import MapView, { Marker, Polyline } from 'react-native-maps'
 import * as Location from "expo-location"
 
-export default function NavigationMap({endLocation,navigation}) {
+export default function NavigationMap({endLocation,navigation, duringParking, 
+    setDuringParking}) {
     
     const [startLocation, setStartLocation] = useState(null);
     const [distance, setDistance] = useState(null);
@@ -38,6 +39,7 @@ export default function NavigationMap({endLocation,navigation}) {
 
     const handleInputChange = (text) => {
         setInputText(text)
+        
     }
 
     const handleSubmit = () => {
@@ -46,6 +48,7 @@ export default function NavigationMap({endLocation,navigation}) {
             time: new Date().toLocaleTimeString(),
             price: parseFloat(inputText),
         };
+        //setDuringParking(true);
         setData(updatedData);
         //console.log('User input:', inputText);
         setModalVisible(false);
