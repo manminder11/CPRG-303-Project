@@ -2,7 +2,7 @@ import { createBottomTabNavigator } from '@react-navigation/bottom-tabs'
 import { NavigationContainer } from '@react-navigation/native'
 import React from 'react'
 import { StyleSheet } from 'react-native'
-import HomePage from './Home'
+import HomePage from './home'
 import MinePage from './Mine'
 import NavigationPage from './Navigation'
 
@@ -15,6 +15,7 @@ export default function App() {
                 <Tab.Screen name='Home' component={HomePage} />
                 <Tab.Screen name='Navi' component={NavigationPage} />
                 <Tab.Screen name='Mine' component={MinePage} />
+                
             </Tab.Navigator>
         </NavigationContainer>
     )
