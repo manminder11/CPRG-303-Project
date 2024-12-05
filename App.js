@@ -6,8 +6,6 @@ import { createStackNavigator } from '@react-navigation/stack';
 import HomeScreen from './homescreen';
 import MinePage from './Mine';
 import NavigationPage from './Navigation';
-
-import Parking from './parkingloc';
 import Search from './search';
 
 const Tab = createBottomTabNavigator();
