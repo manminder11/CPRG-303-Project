@@ -39,7 +39,11 @@ const SearchComponent = () => {
   };
 
   const handleResultClick = (item) => {
-    navigation.navigate("NavigationMap", { place: item });
+    if (navigation) {
+      navigation.navigate("NavigationMap", { place: item });
+    } else {
+      console.error("Navigation object is not available");
+    }
   };
 
   return (
@@ -64,7 +68,7 @@ const SearchComponent = () => {
         renderItem={({ item }) => (
           <TouchableOpacity
             style={styles.resultItem}
-            onPress={() => handleResultClick(item)}
+            onPress={() => navigation.navigate("Navi", { place: item })}
           >
             <Text>{item.name}</Text>
             <Text style={styles.endpoint}>{item.formatted_address}</Text>
