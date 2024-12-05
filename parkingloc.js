@@ -41,6 +41,7 @@ const ParkingLocations = () => {
             <Text style={styles.locationName}>{item.name}</Text>
             <Text>{item.vicinity}</Text>
           </View>
+          
         )}
       />
     </View>
