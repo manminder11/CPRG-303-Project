@@ -1,12 +1,17 @@
-import React from "react";
+import React, { useState } from "react";
 import { View, Text, TouchableOpacity, StyleSheet } from "react-native";
 import { useNavigation } from "@react-navigation/native";
 
 const HomeScreen = () => {
     const navigation = useNavigation();
+    const [endLocation, setEndLocation] = useState({
+        latitude: 0,
+        longitude: 0,
+        address: "",
+    });
 
     const handlePlaceholderClick = () => {
-        navigation.navigate("Search");
+        navigation.navigate("Search", { endLocation });
     };
 
     return (

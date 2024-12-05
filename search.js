@@ -39,7 +39,7 @@ const SearchComponent = () => {
   };
 
   const handleResultClick = (item) => {
-    navigation.navigate("Parking", { place: item });
+    navigation.navigate("NavigationMap", { place: item });
   };
 
   return (
