@@ -1,50 +1,40 @@
-import React, { useRef } from "react";
-import { View, StyleSheet, TouchableOpacity, Text } from "react-native";
-import { useNavigation } from "@react-navigation/native";
+import { useState } from 'react';
+import { Button, Text, View } from 'react-native'
 
-const Home = () => {
-  const navigation = useNavigation();
-  const inputRef = useRef(null);
+export default function HomePage({navigation}) {
+    const [endLocation, setEndLocation] = useState({
+        latitude: 0,
+        longitude: 0,
+        address: '',
+    });
+    
+    const handleNavigation = (location) => {
+        setEndLocation(location);
+        navigation.navigate('Navi', { endLocation: location });
+    };
+    
 
-  const handlePlaceholderClick = () => {
-    navigation.navigate("Search");
-  };
-
-  return (
-    <View style={styles.container}>
-      <View style={styles.searchInputWrapper}>
-        <TouchableOpacity
-          style={styles.searchInput}
-          onPress={handlePlaceholderClick}
-        >
-          <Text style={styles.placeholder}>Search...</Text>
-        </TouchableOpacity>
-      </View>
-    </View>
-  );
-};
-
-const styles = StyleSheet.create({
-  container: {
-    flex: 1,
-    justifyContent: "center",
-    alignItems: "center",
-  },
-  searchInputWrapper: {
-    width: "80%",
-    position: "relative",
-  },
-  searchInput: {
-    height: 40,
-    borderColor: "gray",
-    borderWidth: 1,
-    paddingLeft: 10,
-    width: "100%",
-    justifyContent: "center",
-  },
-  placeholder: {
-    color: "gray",
-  },
-});
-
-export default Home;
+    return (
+        <View>
+            
+            <Button
+                style={{ flex: 1, justifyContent: 'center', alignItems: 'center' }}
+                title="Go to 99 Heritage Gate SE, Calgary, AB T2H 3A7"
+                onPress={() => handleNavigation({
+                    latitude: 50.9784,
+                    longitude: -114.0708,
+                    address: "99 Heritage Gate SE, Calgary, AB T2H 3A7"
+                })}
+            />
+            <Button
+                style={{ flex: 1, justifyContent: 'center', alignItems: 'center' }}
+                title="Go to 12450 149 Street NW, Edmonton, AB T5V 1G9"
+                onPress={() => handleNavigation({
+                    latitude: 53.588132,
+                    longitude: -113.624996,
+                    address: "12450 149 Street NW, Edmonton, AB T5V 1G9"
+                })}
+            />
+        </View>
+    )
+}
