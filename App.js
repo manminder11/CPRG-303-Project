@@ -6,6 +6,7 @@ import HomePage from './home'
 import MinePage from './Mine'
 import NavigationPage from './Navigation'
 import search from './search'
+import homescreen from './homescreen'
 
 export default function App() {
     const Tab = createBottomTabNavigator()
@@ -13,6 +14,7 @@ export default function App() {
     return (
         <NavigationContainer >
             <Tab.Navigator>
+                <Tab.Screen name='HomeScreen' component={homescreen} />
                 <Tab.Screen name='Search' component={search} />
                 <Tab.Screen name='Home' component={HomePage} />
                 <Tab.Screen name='Navi' component={NavigationPage} />
