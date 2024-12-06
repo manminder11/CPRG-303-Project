@@ -52,7 +52,7 @@ const SearchComponent = () => {
             {/* Search bar */}
             <TextInput
                 style={styles.input}
-                placeholder="Search for parking locations..."
+                placeholder="Search for nearby parking locations..."
                 value={searchQuery}
                 onChangeText={setSearchQuery}
             />
@@ -70,6 +70,7 @@ const SearchComponent = () => {
                     <TouchableOpacity
                         style={styles.resultItem}
                         onPress={() => handleResultClick(item)}
+                    onLongPress={() => fetchNearbyLocations(item.geometry.location.lat, item.geometry.location.lng)}
                     >
                         <Text>{item.name}</Text>
                         <Text style={styles.endpoint}>
