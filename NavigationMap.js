@@ -10,13 +10,14 @@ import {
     Text,
     TextInput,
     TouchableOpacity,
-    View
+    View,
+    Linking
 } from 'react-native'
 import MapView, { Marker, Polyline } from 'react-native-maps'
 import * as Location from "expo-location"
-
-export default function NavigationMap({endLocation,navigation, duringParking, 
-    setDuringParking}) {
+import Geocoder from 'react-native-geocoding'
+Geocoder.init('AIzaSyDg618T8Fso8lgi9JqeUh8wQPLkLsAkXMM')
+export default function NavigationMap({endLocation,navigation}) {
     
     const [startLocation, setStartLocation] = useState(null);
     const [distance, setDistance] = useState(null);
@@ -39,16 +40,27 @@ export default function NavigationMap({endLocation,navigation, duringParking,
 
     const handleInputChange = (text) => {
         setInputText(text)
-        
     }
-
-    const handleSubmit = () => {
+    const getAddressFromCoordinates = async (latitude, longitude) => {
+      try {
+        const response = await Geocoder.from(latitude, longitude);
+        const address = response.results[0].formatted_address;
+        return address;
+      } catch (error) {
+        console.error(error);
+        return null;
+      }
+    };
+    const handleSubmit = async() => {
+          const address = await getAddressFromCoordinates(startLocation.latitude, startLocation.longitude);
+          console.log(address);
           const updatedData = {
-            location: endLocation.address,
+            latitude: startLocation.latitude,
+            longtitude: startLocation.longitude,
+            location: address,
             time: new Date().toLocaleTimeString(),
             price: parseFloat(inputText),
         };
-        //setDuringParking(true);
         setData(updatedData);
         //console.log('User input:', inputText);
         setModalVisible(false);
@@ -86,6 +98,10 @@ export default function NavigationMap({endLocation,navigation, duringParking,
                     const endLat = endLocation.latitude;
                     const endLng = endLocation.longitude;
 
+                    console.log(startLat + '-' + startLng + '-' + endLat + '-' + endLng);
+                    const googleMapsUrl = `https://www.google.com/maps/dir/?api=1&origin=${startLat},${startLng}&destination=${endLat},${endLng}&travelmode=driving`;
+                    console.log(googleMapsUrl);
+                    
                     const response = await fetch(
                         `https://maps.googleapis.com/maps/api/directions/json?origin=${startLat},${startLng}&destination=${endLat},${endLng}&key=AIzaSyDg618T8Fso8lgi9JqeUh8wQPLkLsAkXMM`
                     );
@@ -149,23 +165,13 @@ export default function NavigationMap({endLocation,navigation, duringParking,
     return (
         <View style={styles.container}>
         <View style={styles.inputContainer}>
-        <View style={styles.inlineInput}>
-          <TextInput
-            style={styles.input}
-            placeholder="Current Location"
-            keyboardType="numeric"
-            
-          />
-         
-        </View>
+       
 
         <View style={styles.inlineInput}>
-          <TextInput
+          <Text
             style={styles.input}
-            placeholder="End location"
-            keyboardType="numeric"
-            value={endLocation.address}
-          />
+            
+          >{endLocation.address}</Text>
           
         </View>
       </View>
@@ -189,23 +195,35 @@ export default function NavigationMap({endLocation,navigation, duringParking,
 
         <View style={styles.bottomView}>
             <Text style={styles.text}>Drive by car with {distance} about {duration}</Text>
-            <Button title='Exit' color="green" style={{borderColor:5,padding:5,marginTop:10}}
-            onPress={() => Alert.alert(
-              'Confirm parking', // Title of the alert
-              'Did you want to park here?', // Message
-              [{
-                  text: 'Cancel', // Button text
-                  onPress: () =>  navigation.navigate('Home'), // Action for "Cancel"
-                  style: 'cancel' // Styling for the "Cancel" button
-              }, {
-                  text: 'OK', // Button text
-                  onPress: () => {
-                      showPrompt()
-                  } // Action for "OK"
-              }],
-              { cancelable: false } // Whether the alert can be dismissed by tapping outside
-          )}
-            ></Button>
+            <View style={{flexDirection:'row',justifyContent: 'space-between'}}>
+              <View>
+                <Button title='Start Navigation' color="green" style={{borderColor:5,padding:5,marginTop:10}}
+                onPress={() =>{
+                  Linking.openURL(`https://www.google.com/maps/dir/?api=1&destination=${endLocation.latitude},${endLocation.longitude}&travelmode=driving`);
+                }}
+                ></Button>
+              </View>
+              <View style={{marginLeft:20}}>
+              <Button title='Exit' color="green" style={{borderColor:5,padding:5,marginTop:10,marginLeft:20}}
+              onPress={() => Alert.alert(
+                'Confirm parking', // Title of the alert
+                'Did you want to park here?', // Message
+                [{
+                    text: 'Cancel', // Button text
+                    style: 'cancel' // Styling for the "Cancel" button
+                }, {
+                    text: 'OK', // Button text
+                    onPress: () => {
+                        showPrompt()
+                    } // Action for "OK"
+                }],
+                { cancelable: false } // Whether the alert can be dismissed by tapping outside
+            )}
+              ></Button>
+              </View>
+              
+            </View>
+            
         </View>
         
         <View style={{marginTop:'50%'}}>
@@ -217,6 +235,7 @@ export default function NavigationMap({endLocation,navigation, duringParking,
                                 style={styles.input}
                                 placeholder='type here your unit price'
                                 value={inputText}
+                                keyboardType='numeric'
                                 onChangeText={handleInputChange}
                             />
                             <View style={{ flexDirection: 'row', justifyContent: 'space-between', width: '100%' }}>
