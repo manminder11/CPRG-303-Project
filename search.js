@@ -7,14 +7,12 @@ import {
     Text,
     StyleSheet,
 } from "react-native";
-import { useNavigation, useRoute } from "@react-navigation/native";
+import { useNavigation } from "@react-navigation/native";
 
-const Search = () => {
+const SearchComponent = () => {
     const [searchQuery, setSearchQuery] = useState(""); // Store the input
     const [results, setResults] = useState([]); // Store the fetched results
     const navigation = useNavigation();
-    const route = useRoute();
-    const { endLocation } = route.params;
 
     // Fetch data from the API when the user types
     const fetchSearchResults = async (query) => {
@@ -24,7 +22,7 @@ const Search = () => {
         }
         try {
             const response = await fetch(
-                `https://maps.googleapis.com/maps/api/place/textsearch/json?query=${query}&type=parking&key=YOUR_API_KEY`
+                `https://maps.googleapis.com/maps/api/place/textsearch/json?query=${query}&type=parking&key=AIzaSyDKswxdCGdjJM8S3d-JlHoR36aw5QhBgj4`
             );
             if (!response.ok) {
                 throw new Error(`HTTP error! status: ${response.status}`);
@@ -41,7 +39,7 @@ const Search = () => {
     };
 
     const handleResultClick = (item) => {
-        navigation.navigate("NavigationMap", { place: item, endLocation });
+        navigation.navigate("Parking", { place: item });
     };
 
     return (
@@ -109,4 +107,4 @@ const styles = StyleSheet.create({
     endpoint: { fontSize: 12, color: "gray" },
 });
 
-export default Search;
+export default SearchComponent;
