@@ -39,7 +39,12 @@ const SearchComponent = () => {
     };
 
     const handleResultClick = (item) => {
-        navigation.navigate("Parking", { place: item });
+        const endLocation = {
+            latitude: item.geometry.location.lat,
+            longitude: item.geometry.location.lng,
+            address: item.formatted_address,
+        };
+        navigation.navigate("Navi", { endLocation });
     };
 
     return (
