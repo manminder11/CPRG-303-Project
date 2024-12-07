@@ -1,16 +1,30 @@
-import { Ionicons } from '@expo/vector-icons'
-import { useNavigation } from '@react-navigation/native'
-import React, { useEffect } from 'react'
+import { Ionicons } from "@expo/vector-icons";
+import { useNavigation } from "@react-navigation/native";
+import React, { useEffect } from "react";
 import { useState, useRef } from "react";
-import { Alert, ImageBackground, StyleSheet, Text, TouchableOpacity, View } from 'react-native'
-import Timer from './Timer'
-import Cost from './Cost'
+import {
+    Alert,
+    ImageBackground,
+    StyleSheet,
+    Text,
+    TouchableOpacity,
+    View,
+} from "react-native";
+import Timer from "./Timer";
+import Cost from "./Cost";
 
-export default function MinePage({route}) {
+export default function MinePage({ route }) {
     const [duringParking, setDuringParking] = useState(false);
     const [isConfirmationVisible, setIsConfirmationVisible] = useState(false);
     const navigation = useNavigation();
     const [duration, setDuration] = useState(0);
+    const { data } = route.params || {};
+
+    useEffect(() => {
+        if (data) {
+            setDuringParking(true);
+        }
+    }, [data]);
     //GET DATA FROM NAVIGATION
     //const { data } = route.params;
     /*
@@ -18,44 +32,54 @@ export default function MinePage({route}) {
     console.log(data.time);
     console.log(data.price);
     */
-   const data = {
-       location: "123 Main Street, Parking Lot 5",
-       starttime: "2024-12-03 15:30:00",
-       price: "20.00",
-   };
+
     const handleNavigate = () => {
-        navigation.navigate('Navi') // 导航到Home页面
-    }
+        navigation.navigate("Navi"); // 导航到Home页面
+    };
     const handleConfirm = () => {
         // After confirmation, navigate to the Home page
-        setIsConfirmationVisible(false)
-        navigation.navigate('Home')
-    }
+        setIsConfirmationVisible(false);
+        navigation.navigate("Home");
+    };
     const handleStop = () => {
-        Alert.alert('Have you left this parking spot?', '', [{
-            text: 'No',
-            onPress: () => {
-                // If No, stay on the current page (MinePage)
-            },
-            style: 'cancel',
-        }, {
-            text: 'Yes',
-            onPress: () => {
-                
-                // If Yes, show the cost and then move to the home page
-                Alert.alert('Duration:\n1h 45min\nCost:\n$20.00', '', [{
-                    text: 'Got it !',
+        Alert.alert(
+            "Have you left this parking spot?",
+            "",
+            [
+                {
+                    text: "No",
                     onPress: () => {
-                        setDuration(0); // Reset duration
                         // If No, stay on the current page (MinePage)
-                        navigation.navigate("Home");
                     },
-                    style: 'cancel',
-                }], { cancelable: false })
-            },
-        }], { cancelable: false })
-    }
-    
+                    style: "cancel",
+                },
+                {
+                    text: "Yes",
+                    onPress: () => {
+                        // If Yes, show the cost and then move to the home page
+                        Alert.alert(
+                            "Duration:\n1h 45min\nCost:\n$20.00",
+                            "",
+                            [
+                                {
+                                    text: "Got it !",
+                                    onPress: () => {
+                                        setDuration(0); // Reset duration
+                                        // If No, stay on the current page (MinePage)
+                                        navigation.navigate("Home");
+                                    },
+                                    style: "cancel",
+                                },
+                            ],
+                            { cancelable: false }
+                        );
+                    },
+                },
+            ],
+            { cancelable: false }
+        );
+    };
+
     return (
         <ImageBackground
             source="..//..//assets//background3.jpg" // Replace with your image path
@@ -112,7 +136,6 @@ export default function MinePage({route}) {
                             ) : (
                                 <Text style={styles.cost}>$0.00</Text>
                             )}
-                            
                         </View>
                     </View>
                     <View style={styles.buttonContainer}>
