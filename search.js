@@ -9,15 +9,14 @@ import {
 } from "react-native";
 import { useNavigation } from "@react-navigation/native";
 
-const SearchComponent = () => {
-    const [searchQuery, setSearchQuery] = useState(""); // Store the input
-    const [results, setResults] = useState([]); // Store the fetched results
+const SearchScreen = () => {
+    const [searchQuery, setSearchQuery] = useState("");
+    const [results, setResults] = useState([]);
     const navigation = useNavigation();
 
-    // Fetch data from the API when the user types
     const fetchSearchResults = async (query) => {
         if (!query) {
-            setResults([]); // Clear results if the input is empty
+            setResults([]);
             return;
         }
         try {
@@ -28,7 +27,7 @@ const SearchComponent = () => {
                 throw new Error(`HTTP error! status: ${response.status}`);
             }
             const data = await response.json();
-            setResults(data.results); // Update state with the fetched results
+            setResults(data.results);
         } catch (error) {
             console.error("Error fetching search results:", error);
         }
@@ -44,12 +43,21 @@ const SearchComponent = () => {
             longitude: item.geometry.location.lng,
             address: item.formatted_address,
         };
-        navigation.navigate("Navi", { endLocation });
+        navigation.reset({
+            index: 0,
+            routes: [
+                {
+                    name: "Main",
+                    state: {
+                        routes: [{ name: "Navi", params: { endLocation } }],
+                    },
+                },
+            ],
+        });
     };
 
     return (
         <View style={styles.container}>
-            {/* Search bar */}
             <TextInput
                 style={styles.input}
                 placeholder="Search for nearby parking locations..."
@@ -57,12 +65,10 @@ const SearchComponent = () => {
                 onChangeText={setSearchQuery}
             />
 
-            {/* Search button */}
             <TouchableOpacity style={styles.button} onPress={handleSearch}>
                 <Text style={styles.buttonText}>Search</Text>
             </TouchableOpacity>
 
-            {/* Display results */}
             <FlatList
                 data={results}
                 keyExtractor={(item, index) => index.toString()}
@@ -70,7 +76,6 @@ const SearchComponent = () => {
                     <TouchableOpacity
                         style={styles.resultItem}
                         onPress={() => handleResultClick(item)}
-                    onLongPress={() => fetchNearbyLocations(item.geometry.location.lat, item.geometry.location.lng)}
                     >
                         <Text>{item.name}</Text>
                         <Text style={styles.endpoint}>
@@ -113,4 +118,4 @@ const styles = StyleSheet.create({
     endpoint: { fontSize: 12, color: "gray" },
 });
 
-export default SearchComponent;
+export default SearchScreen;
