@@ -37,6 +37,8 @@ export default function NavigationMap({endLocation,navigation}) {
       price: 0,
   });
 
+  console.log(endLocation.address);
+
     const showPrompt = () => {
         setModalVisible(true)
     }

@@ -51,7 +51,7 @@ const SearchScreen = () => {
         const endLocation = {
             latitude: item.geometry.location.lat,
             longitude: item.geometry.location.lng,
-            address: item.formatted_address,
+            address: item.name,
         };
         navigation.reset({
             index: 0,
