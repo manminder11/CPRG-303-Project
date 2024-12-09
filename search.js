@@ -8,20 +8,30 @@ import {
     StyleSheet,
 } from "react-native";
 import { useNavigation } from "@react-navigation/native";
+import { GOOGLE_MAPS_API_KEY } from "@env";
+
+//dotenv.config();
+
+// 获取环境变量
+//const API_KEY = Constants.manifest.extra.GOOGLE_MAPS_API_KEY;
+
+//const API_KEY = process.env.GOOGLE_MAPS_API_KEY;
 
 const SearchScreen = () => {
     const [searchQuery, setSearchQuery] = useState("");
     const [results, setResults] = useState([]);
     const navigation = useNavigation();
 
-    const fetchSearchResults = async (query) => {
+    const fetchNearbyParking = async (query) => {
         if (!query) {
             setResults([]);
             return;
         }
         try {
             const response = await fetch(
-                `https://maps.googleapis.com/maps/api/place/textsearch/json?query=${query}&type=parking&key=AIzaSyDKswxdCGdjJM8S3d-JlHoR36aw5QhBgj4`
+                `https://maps.googleapis.com/maps/api/place/textsearch/json?query=${
+                    "parking near" + query
+                }&region=ca&type=parking&key=${GOOGLE_MAPS_API_KEY}`
             );
             if (!response.ok) {
                 throw new Error(`HTTP error! status: ${response.status}`);
@@ -34,7 +44,7 @@ const SearchScreen = () => {
     };
 
     const handleSearch = () => {
-        fetchSearchResults(searchQuery);
+        fetchNearbyParking(searchQuery);
     };
 
     const handleResultClick = (item) => {
