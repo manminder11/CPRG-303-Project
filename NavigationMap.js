@@ -167,93 +167,144 @@ export default function NavigationMap({endLocation,navigation}) {
     
     return (
         <View style={styles.container}>
-        <View style={styles.inputContainer}>
-       
-
-          <View style={styles.inlineInput}>
-            <Text
-              style={styles.input}
-              
-            >{endLocation.address}</Text>
-            
-          </View>
-        </View>
-
-        {startLocation ? (
-            <MapView
-                style={styles.map}
-                initialRegion={{
-                    latitude: startLocation.latitude,
-                    longitude: startLocation.longitude,
-                    latitudeDelta: 0.0922,
-                    longitudeDelta: 0.0421,
-                }}
-            >
-                <Marker coordinate={startLocation} title="Start Location" />
-                <Marker coordinate={endLocation} title="End Location" />
-                <Polyline coordinates={routeCoordinates} strokeWidth={4} strokeColor="blue" />
-
-            </MapView>):(
-                <Text>Loading...</Text>)
-        }
-
-        <View style={styles.bottomView}>
-            <Text style={styles.text}>Drive by car with {distance} about {duration}</Text>
-            <View style={{flexDirection:'row',justifyContent: 'space-between'}}>
-              <View>
-                <Button title='Start Navigation' color="green" style={{borderColor:5,padding:5,marginTop:10}}
-                onPress={() =>{
-                  Linking.openURL(`https://www.google.com/maps/dir/?api=1&destination=${endLocation.latitude},${endLocation.longitude}&travelmode=driving`);
-                }}
-                ></Button>
-              </View>
-              <View style={{marginLeft:20}}>
-              <Button title='Exit' color="green" style={{borderColor:5,padding:5,marginTop:10,marginLeft:20}}
-              onPress={() => Alert.alert(
-                'Confirm parking', // Title of the alert
-                'Did you want to park here?', // Message
-                [{
-                    text: 'Cancel', // Button text
-                    style: 'cancel' // Styling for the "Cancel" button
-                }, {
-                    text: 'OK', // Button text
-                    onPress: () => {
-                        showPrompt()
-                    } // Action for "OK"
-                }],
-                { cancelable: false } // Whether the alert can be dismissed by tapping outside
-            )}
-              ></Button>
-              </View>
-              
+            <View style={styles.inputContainer}>
+                <View style={styles.inlineInput}>
+                    <Text style={styles.input}>{endLocation.address}</Text>
+                </View>
             </View>
-            
-        </View>
-        
-        <View style={{marginTop:'50%'}}>
-                <Modal visible={modalVisible} animationType='slide' transparent={true}>
+
+            {startLocation ? (
+                <MapView
+                    style={styles.map}
+                    initialRegion={{
+                        latitude: startLocation.latitude,
+                        longitude: startLocation.longitude,
+                        latitudeDelta: 0.0922,
+                        longitudeDelta: 0.0421,
+                    }}
+                >
+                    <Marker coordinate={startLocation} title="Start Location" />
+                    <Marker coordinate={endLocation} title="End Location" />
+                    <Polyline
+                        coordinates={routeCoordinates}
+                        strokeWidth={4}
+                        strokeColor="blue"
+                    />
+                </MapView>
+            ) : (
+                <Text>Loading...</Text>
+            )}
+
+            <View style={styles.bottomView}>
+                {/* 显示距离和时间信息 */}
+                <Text style={styles.text}>
+                    You'll drive {distance} in about {duration}
+                </Text>
+
+                {/* 包裹按钮的容器，使用 flexDirection: 'row' 并正确对齐 */}
+                <View
+                    style={{
+                        flexDirection: "row",
+                        justifyContent: "flex-start", // 按钮左对齐
+                        alignItems: "center", // 垂直居中对齐按钮
+                        marginTop: 10, // 为按钮区域设置间距
+                    }}
+                >
+                    {/* 开始导航按钮 */}
+                    <View>
+                        <TouchableOpacity
+                            style={{
+                                backgroundColor: "green",
+                                padding: 10,
+                                borderWidth: 2,
+                                borderColor: "green",
+                                borderRadius: 5,
+                            }}
+                            onPress={() => {
+                                Linking.openURL(
+                                    `https://www.google.com/maps/dir/?api=1&destination=${endLocation.latitude},${endLocation.longitude}&travelmode=driving`
+                                );
+                            }}
+                        >
+                            <Text
+                                style={{ color: "white", textAlign: "center" }}
+                            >
+                                Start Navigation
+                            </Text>
+                        </TouchableOpacity>
+                    </View>
+
+                    {/* 第二个按钮 */}
+                    <View style={{ marginLeft: 70 }}>
+                        <Button
+                            title="Exit"
+                            color="red"
+                            onPress={() =>
+                                Alert.alert(
+                                    "Do you want to park here?",
+                                    "",
+                                    [
+                                        {
+                                            text: "No",
+                                            style: "cancel",
+                                        },
+                                        {
+                                            text: "Yes",
+                                            onPress: () => {
+                                                showPrompt();
+                                            },
+                                        },
+                                    ],
+                                    { cancelable: false }
+                                )
+                            }
+                        />
+                    </View>
+                </View>
+            </View>
+
+            <View style={{ marginTop: "50%" }}>
+                <Modal
+                    visible={modalVisible}
+                    animationType="slide"
+                    transparent={true}
+                >
                     <View style={styles.modalBackground}>
                         <View style={styles.modalContainer}>
-                            <Text>What is the hourly price for this parking lot?</Text>
+                            <Text>
+                                What is the hourly price for this parking lot?
+                            </Text>
                             <TextInput
                                 style={styles.input}
-                                placeholder='type here your unit price'
+                                placeholder="type here your unit price"
                                 value={inputText}
-                                keyboardType='numeric'
+                                keyboardType="numeric"
                                 onChangeText={handleInputChange}
                             />
-                            <View style={{ flexDirection: 'row', justifyContent: 'space-between', width: '100%' }}>
-                                <Button title='Cancel' onPress={handleCancel} color='green' />
-                                <Button title='OK' onPress={handleSubmit} color='green' />
-                                
+                            <View
+                                style={{
+                                    flexDirection: "row",
+                                    justifyContent: "space-between",
+                                    width: "100%",
+                                }}
+                            >
+                                <Button
+                                    title="Cancel"
+                                    onPress={handleCancel}
+                                    color="green"
+                                />
+                                <Button
+                                    title="OK"
+                                    onPress={handleSubmit}
+                                    color="green"
+                                />
                             </View>
                         </View>
                     </View>
                 </Modal>
-            </View> 
-
+            </View>
         </View>
-    )
+    );
 }
 
 const styles = StyleSheet.create({
@@ -261,12 +312,13 @@ const styles = StyleSheet.create({
         flex: 1,
     },
     inputContainer: {
+        alignSelf: "center",
         position: "absolute",
         top: height * 0.07,
-        width: "100%",
+        width: "80%",
         paddingHorizontal: 10,
         zIndex: 1,
-        backgroundColor: "rgba(255, 255, 255, 0.9)",
+        backgroundColor: "rgba(245, 245, 220, 0.8)",
         paddingVertical: 10,
         borderRadius: 10,
         justifyContent: "center",
@@ -294,7 +346,7 @@ const styles = StyleSheet.create({
         bottom: height * 0.04,
         width: "80%",
         padding: 15,
-        backgroundColor: "white",
+        backgroundColor: "rgba(245, 245, 220, 0.8)",
         borderWidth: 1,
         borderColor: "gray",
         borderRadius: 10,
