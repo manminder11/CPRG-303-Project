@@ -1,5 +1,5 @@
 import { Text ,View} from 'react-native'
-import NavigationMap from './NavigationMap'
+import NavigationScreen from './NavigationMap'
 
 export default function NavigationPage({ route,navigation }) {
    
@@ -13,6 +13,6 @@ export default function NavigationPage({ route,navigation }) {
         );
     }
 
-    return <NavigationMap endLocation={endLocation} navigation={navigation} />;
+    return <NavigationScreen endLocation={endLocation} navigation={navigation} />;
     
 }
