@@ -84,11 +84,13 @@ const HomeScreen = () => {
                     style={styles.searchBar}
                     onPress={() => navigation.navigate("Search")}
                 >
-                    <TextInput
+                    {/* <TextInput
                         style={styles.searchInput}
                         placeholder="Where to ?"
                         editable={false}
-                    />
+                    /> */}
+
+                    <Text style={styles.searchInputText}>Where to ?</Text>
                     <Ionicons
                         name="search"
                         size={24}
@@ -193,6 +195,11 @@ const styles = StyleSheet.create({
     searchInput: {
         flex: 1,
         fontSize: 16,
+    },
+    searchInputText: {
+        color: "gray",
+        fontSize: 16,
+        marginRight: 160,
     },
     searchIcon: {
         marginLeft: 10,
