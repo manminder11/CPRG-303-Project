@@ -1,5 +1,7 @@
 import React, { useState,useEffect } from 'react'
+import { Dimensions } from "react-native";
 
+const { height } = Dimensions.get("window");
 import {
     Alert,
     Button,
@@ -168,14 +170,15 @@ export default function NavigationMap({endLocation,navigation}) {
         <View style={styles.inputContainer}>
        
 
-        <View style={styles.inlineInput}>
-          <Text
-            style={styles.input}
+          <View style={styles.inlineInput}>
+            <Text
+              style={styles.input}
+              
+            >{endLocation.address}</Text>
             
-          >{endLocation.address}</Text>
-          
+          </View>
         </View>
-      </View>
+
         {startLocation ? (
             <MapView
                 style={styles.map}
@@ -256,40 +259,40 @@ export default function NavigationMap({endLocation,navigation}) {
 const styles = StyleSheet.create({
     container: {
         flex: 1,
-      },
-      inputContainer: {
+    },
+    inputContainer: {
         position: "absolute",
-        top: 10,
+        top: height * 0.07,
         width: "100%",
         paddingHorizontal: 10,
         zIndex: 1,
         backgroundColor: "rgba(255, 255, 255, 0.9)",
         paddingVertical: 10,
         borderRadius: 10,
-        justifyContent:'center',
-        alignItems:'center',
-
-      },
-      inlineInput: {
+        justifyContent: "center",
+        alignItems: "center",
+    },
+    inlineInput: {
         flexDirection: "row",
         alignItems: "center",
         marginBottom: 10,
-      },
-      label: {
+    },
+    label: {
         fontSize: 16,
         fontWeight: "bold",
-      },
-      input: {
+    },
+    input: {
         borderWidth: 1,
         borderColor: "#ccc",
         borderRadius: 5,
         padding: 5,
-        width: '100%',
-      },
-      bottomView: {
-        position: "absolute",
-        bottom: 0,
         width: "100%",
+    },
+    bottomView: {
+        alignSelf: "center",
+        position: "absolute",
+        bottom: height * 0.04,
+        width: "80%",
         padding: 15,
         backgroundColor: "white",
         borderWidth: 1,
@@ -297,20 +300,36 @@ const styles = StyleSheet.create({
         borderRadius: 10,
         alignItems: "center",
         justifyContent: "center",
-      },
-      text: {
+    },
+    text: {
         fontSize: 16,
         fontWeight: "bold",
         color: "#333",
-      },
-      modalBackground: { flex: 1, justifyContent: 'center', alignItems: 'center', backgroundColor: 'rgba(0,0,0,0.5)' },
-      modalContainer: { backgroundColor: 'white', padding: 20, borderRadius: 10, width: '80%', alignItems: 'center' },
-      modalTitle: { fontSize: 18, marginBottom: 10 },
-      input: { borderWidth: 1, borderColor: 'gray', width: '100%', padding: 10, marginBottom: 20, borderRadius: 5 },
-      map: {
-        width: '100%',
-        height: '100%',
-      },
-    
-    
-})
+    },
+    modalBackground: {
+        flex: 1,
+        justifyContent: "center",
+        alignItems: "center",
+        backgroundColor: "rgba(0,0,0,0.5)",
+    },
+    modalContainer: {
+        backgroundColor: "white",
+        padding: 20,
+        borderRadius: 10,
+        width: "80%",
+        alignItems: "center",
+    },
+    modalTitle: { fontSize: 18, marginBottom: 10 },
+    input: {
+        borderWidth: 1,
+        borderColor: "gray",
+        width: "100%",
+        padding: 10,
+        marginBottom: 20,
+        borderRadius: 5,
+    },
+    map: {
+        width: "100%",
+        height: "100%",
+    },
+});
