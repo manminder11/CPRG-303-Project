@@ -13,10 +13,11 @@ import {
     View,
     Linking
 } from 'react-native'
+import { GOOGLE_MAPS_API_KEY } from "@env";
 import MapView, { Marker, Polyline } from 'react-native-maps'
 import * as Location from "expo-location"
 import Geocoder from 'react-native-geocoding'
-Geocoder.init('AIzaSyDg618T8Fso8lgi9JqeUh8wQPLkLsAkXMM')
+Geocoder.init('${GOOGLE_MAPS_API_KEY}');
 export default function NavigationMap({endLocation,navigation}) {
     
     const [startLocation, setStartLocation] = useState(null);
@@ -103,7 +104,7 @@ export default function NavigationMap({endLocation,navigation}) {
                     console.log(googleMapsUrl);
                     
                     const response = await fetch(
-                        `https://maps.googleapis.com/maps/api/directions/json?origin=${startLat},${startLng}&destination=${endLat},${endLng}&key=AIzaSyDg618T8Fso8lgi9JqeUh8wQPLkLsAkXMM`
+                        `https://maps.googleapis.com/maps/api/directions/json?origin=${startLat},${startLng}&destination=${endLat},${endLng}&key=${GOOGLE_MAPS_API_KEY}`
                     );
                     const data = await response.json();
                     if (data.routes.length > 0) {
