@@ -50,12 +50,13 @@ export default function NavigationMap({ endLocation, navigation }) {
             startLocation.longitude
         );
         console.log(address);
-        const updatedData = {
+        const data = {
             latitude: startLocation.latitude,
             longtitude: startLocation.longitude,
             location: address,
-            time: new Date().toLocaleTimeString(),
+            time: new Date().toISOString(),
             price: parseFloat(inputText),
+            duringParking: true,
         };
         
         console.log('User input:', inputText);
@@ -63,7 +64,7 @@ export default function NavigationMap({ endLocation, navigation }) {
         
         navigation.navigate("Main", {
             screen: "Mine",
-            route: { data: updatedData },
+            params: { data },
         });
         
     };

@@ -1,7 +1,7 @@
 import { Ionicons } from "@expo/vector-icons";
 import { useNavigation } from "@react-navigation/native";
 import React, { useEffect } from "react";
-import { useState, useRef } from "react";
+import { useState } from "react";
 import {
     Alert,
     ImageBackground,
@@ -20,18 +20,23 @@ export default function MinePage({ route }) {
     const [duration, setDuration] = useState(0);
     const { data } = route.params || {};
 
+    // useEffect(() => {
+    //     if (data) {
+    //         setDuringParking(true);
+    //     }
+    // }, [data]);
+
     useEffect(() => {
-        if (data) {
-            setDuringParking(true);
+        if (data && data.duringParking !== undefined) {
+            setDuringParking(data.duringParking); // 根据传递过来的数据设置状态
         }
     }, [data]);
     //GET DATA FROM NAVIGATION
     //const { data } = route.params;
-    /*
-    console.log(data.location);
-    console.log(data.time);
-    console.log(data.price);
-    */
+    
+    // console.log(data.location);
+    // console.log(data.time);
+    // console.log(data.duringParking);
 
     const handleNavigate = () => {
         navigation.navigate("Navi"); // 导航到Home页面
@@ -66,6 +71,7 @@ export default function MinePage({ route }) {
                                     onPress: () => {
                                         setDuration(0); // Reset duration
                                         // If No, stay on the current page (MinePage)
+                                        setDuringParking(false); // Update the duringParking state
                                         navigation.navigate("Home");
                                     },
                                     style: "cancel",
@@ -82,7 +88,7 @@ export default function MinePage({ route }) {
 
     return (
         <ImageBackground
-            source="..//..//assets//background3.jpg" // Replace with your image path
+            source = {require ("./assets/background3.jpg")}// Replace with your image path
             resizeMode="cover"
             style={styles.background}
         >
@@ -116,7 +122,7 @@ export default function MinePage({ route }) {
                             <Text style={styles.header}>Duration:</Text>
                             {duringParking ? (
                                 <Timer
-                                    starttime={data.starttime}
+                                    starttime={data.time}
                                     onDurationUpdate={(newDuration) => {
                                         setDuration(newDuration); // Update the duration state
                                     }}
@@ -158,11 +164,14 @@ export default function MinePage({ route }) {
 
 const styles = StyleSheet.create({
     background: {
-        // flex: 1,
-        // justifyContent: "center",
-        // alignItems: "center",
+        flex: 1,
+        justifyContent: "center",
+        //alignItems: "center",
         width: "100%",
         height: "100%", // 确保背景填满
+    },
+    address: {
+        width: "90%",
     },
     stack: {
         width: "100%", // Ensure the stack takes full width

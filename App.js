@@ -48,7 +48,7 @@ function TabNavigator() {
             <Tab.Screen
                 name="Mine"
                 component={MinePage}
-                options={{ headerShown: false }}
+                //options={{ headerShown: false }}
             />
         </Tab.Navigator>
     );
