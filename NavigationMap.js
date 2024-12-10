@@ -211,11 +211,16 @@ export default function NavigationMap({ endLocation, navigation }) {
             >
                 <View style={styles.modalBackground}>
                     <View style={styles.modalContainer}>
-                        <Text>
+                        <Text
+                            style={{
+                                fontSize: 20,
+                                fontWeight: "bold",
+                            }}
+                        >
                             What is the hourly price for this parking lot?
                         </Text>
                         <TextInput
-                            style={styles.input}
+                            style={styles.unitpriceInput}
                             placeholder="Type here your unit price"
                             value={inputText}
                             keyboardType="numeric"
@@ -225,6 +230,7 @@ export default function NavigationMap({ endLocation, navigation }) {
                             style={{
                                 flexDirection: "row",
                                 justifyContent: "space-between",
+                                gap: "50%",
                             }}
                         >
                             <Button
@@ -256,6 +262,7 @@ const styles = StyleSheet.create({
         borderRadius: 10,
     },
     input: { fontSize: 16, textAlign: "center" },
+    unitpriceInput: {borderWidth: 1, width: '95%', borderColor: "black", padding: 10, margin: 15, borderRadius: 5},
     bottomView: {
         position: "absolute",
         bottom: height * 0.04,
