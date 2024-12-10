@@ -1,4 +1,5 @@
 import React, { useState, useEffect } from "react";
+
 import { Dimensions } from "react-native";
 import {
     Alert,
@@ -9,7 +10,6 @@ import {
     TextInput,
     TouchableOpacity,
     View,
-    Linking,
 } from "react-native";
 import MapView, { Marker, Polyline } from "react-native-maps";
 import * as Location from "expo-location";
@@ -19,7 +19,10 @@ import { GOOGLE_MAPS_API_KEY } from "@env";
 // 初始化 Geocoder
 Geocoder.init(GOOGLE_MAPS_API_KEY);
 
+
 const { height } = Dimensions.get("window");
+
+
 
 export default function NavigationMap({ endLocation, navigation }) {
     const [startLocation, setStartLocation] = useState(null);
@@ -28,6 +31,42 @@ export default function NavigationMap({ endLocation, navigation }) {
     const [duration, setDuration] = useState(null);
     const [modalVisible, setModalVisible] = useState(false);
     const [inputText, setInputText] = useState("");
+    
+
+    const getAddressFromCoordinates = async (latitude, longitude) => {
+        try {
+            const response = await Geocoder.from(latitude, longitude);
+            const address = response.results[0].formatted_address;
+            return address;
+        } catch (error) {
+            console.error(error);
+            return null;
+        }
+    };
+
+    const handleSubmit = async () => {
+        const address = await getAddressFromCoordinates(
+            startLocation.latitude,
+            startLocation.longitude
+        );
+        console.log(address);
+        const updatedData = {
+            latitude: startLocation.latitude,
+            longtitude: startLocation.longitude,
+            location: address,
+            time: new Date().toLocaleTimeString(),
+            price: parseFloat(inputText),
+        };
+        
+        console.log('User input:', inputText);
+        setModalVisible(false);
+        
+        navigation.navigate("Main", {
+            screen: "Mine",
+            route: { data: updatedData },
+        });
+        
+    };
 
     // 请求位置权限并实时更新位置
     useEffect(() => {
@@ -239,7 +278,10 @@ export default function NavigationMap({ endLocation, navigation }) {
                             />
                             <Button
                                 title="OK"
-                                onPress={() => setModalVisible(false)}
+                                onPress={async () => {
+                                    setModalVisible(false);
+                                    await handleSubmit();
+                                }}
                             />
                         </View>
                     </View>
