@@ -4,10 +4,10 @@ import { createNativeStackNavigator } from "@react-navigation/native-stack";
 import { createBottomTabNavigator } from "@react-navigation/bottom-tabs";
 import { Ionicons } from "@expo/vector-icons";
 
-import HomeScreen from "./home";
-import SearchScreen from "./search";
-import NavigationPage from "./Navigation";
-import MinePage from "./Mine";
+import HomeScreen from "./homeTab/home";
+import SearchScreen from "./homeTab/search";
+import NavigationPage from "./navITab/Navigation";
+import MinePage from "./mineTab/Mine";
 
 const Stack = createNativeStackNavigator();
 const Tab = createBottomTabNavigator();

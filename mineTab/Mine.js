@@ -13,39 +13,43 @@ import {
 import Timer from "./Timer";
 import Cost from "./Cost";
 
+
+
 export default function MinePage({ route }) {
     const [duringParking, setDuringParking] = useState(false);
     const [isConfirmationVisible, setIsConfirmationVisible] = useState(false);
     const navigation = useNavigation();
     const [duration, setDuration] = useState(0);
     const { data } = route.params || {};
+    
+    
 
-    // useEffect(() => {
-    //     if (data) {
-    //         setDuringParking(true);
-    //     }
-    // }, [data]);
 
     useEffect(() => {
         if (data && data.duringParking !== undefined) {
             setDuringParking(data.duringParking); // 根据传递过来的数据设置状态
         }
     }, [data]);
-    //GET DATA FROM NAVIGATION
-    //const { data } = route.params;
-    
-    // console.log(data.location);
-    // console.log(data.time);
-    // console.log(data.duringParking);
+
 
     const handleNavigate = () => {
-        navigation.navigate("Navi"); // 导航到Home页面
+        // Navigate to the Navigation page
+
+        const endLocation = {
+            latitude: data.latitude,
+            longitude: data.longitude,
+            address: data.location,
+            searchingParking: false,
+        };
+
+
+        navigation.navigate("Main", {
+            screen: "Navi",
+            params: { endLocation },
+        });
+
     };
-    const handleConfirm = () => {
-        // After confirmation, navigate to the Home page
-        setIsConfirmationVisible(false);
-        navigation.navigate("Home");
-    };
+
     const handleStop = () => {
         Alert.alert(
             "Have you left this parking spot?",
@@ -61,9 +65,10 @@ export default function MinePage({ route }) {
                 {
                     text: "Yes",
                     onPress: () => {
+                        let cost = ((duration * data.price) / 60).toFixed(2);
                         // If Yes, show the cost and then move to the home page
                         Alert.alert(
-                            "Duration:\n1h 45min\nCost:\n$20.00",
+                            `Duration:\n${duration} mins\nCost:\n$ ${cost}`,
                             "",
                             [
                                 {
@@ -88,7 +93,7 @@ export default function MinePage({ route }) {
 
     return (
         <ImageBackground
-            source = {require ("./assets/background3.jpg")}// Replace with your image path
+            source = {require ("../assets/background3.jpg")}// Replace with your image path
             resizeMode="cover"
             style={styles.background}
         >

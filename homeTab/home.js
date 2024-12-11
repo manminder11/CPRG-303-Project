@@ -25,42 +25,42 @@ const HomeScreen = () => {
     const parkingSigns = [
         {
             id: 1,
-            source: require("./assets/signs/no-parking.png"),
+            source: require("../assets/signs/no-parking.png"),
             title: "No Parking - Tow Away Zone",
             explanation:
                 "Vehicles parked in this area will be towed at the owner's expense.",
         },
         {
             id: 2,
-            source: require("./assets/signs/lot-closed.png"),
+            source: require("../assets/signs/lot-closed.png"),
             title: "Lot Closed",
             explanation:
                 "This parking lot is temporarily closed due to construction work.",
         },
         {
             id: 3,
-            source: require("./assets/signs/time-parking.png"),
+            source: require("../assets/signs/time-parking.png"),
             title: "2 Hour Parking (8:00-18:00)",
             explanation:
                 "Parking is limited to 2 hours maximum between 8:00 AM and 6:00 PM.",
         },
         {
             id: 4,
-            source: require("./assets/signs/handicapped.png"),
+            source: require("../assets/signs/handicapped.png"),
             title: "Handicapped Parking",
             explanation:
                 "This space is reserved for vehicles displaying valid handicapped parking permits.",
         },
         {
             id: 5,
-            source: require("./assets/signs/no-block.png"),
+            source: require("../assets/signs/no-block.png"),
             title: "Do Not Block Gate",
             explanation:
                 "Keep this area clear at all times for vehicles entering and exiting.",
         },
         {
             id: 6,
-            source: require("./assets/signs/no-stopping.png"),
+            source: require("../assets/signs/no-stopping.png"),
             title: "No Stopping",
             explanation: "No stopping is allowed in either direction.",
         },

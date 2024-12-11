@@ -9,7 +9,7 @@ export default function NavigationPage({ route, navigation }) {
         return (
             <View style={styles.centeredContainer}>
                 <Text style={styles.errorText}>
-                    Error: endLocation is not provided.
+                    Sorry,endLocation is not provided.
                 </Text>
             </View>
         );
@@ -29,7 +29,7 @@ const styles = StyleSheet.create({
     },
     // 设置文本样式
     errorText: {
-        fontSize: 16,
+        fontSize: 20,
         color: "red",
     },
 });

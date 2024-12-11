@@ -15,6 +15,7 @@ import MapView, { Marker, Polyline } from "react-native-maps";
 import * as Location from "expo-location";
 import Geocoder from "react-native-geocoding";
 import { GOOGLE_MAPS_API_KEY } from "@env";
+import { useNavigation } from "@react-navigation/native";
 
 // 初始化 Geocoder
 Geocoder.init(GOOGLE_MAPS_API_KEY);
@@ -24,14 +25,21 @@ const { height } = Dimensions.get("window");
 
 
 
-export default function NavigationMap({ endLocation, navigation }) {
+export default function NavigationMap({ endLocation}) {
     const [startLocation, setStartLocation] = useState(null);
     const [routeCoordinates, setRouteCoordinates] = useState([]);
     const [distance, setDistance] = useState(null);
     const [duration, setDuration] = useState(null);
     const [modalVisible, setModalVisible] = useState(false);
     const [inputText, setInputText] = useState("");
-    
+    const [isSearchingParking, setIsSearchingParking] = useState(true);
+    const navigation = useNavigation();
+
+    useEffect(() => {
+        if (!endLocation?.searchingParking) {
+            setIsSearchingParking(false);
+        }
+    }, [endLocation?.searchingParking]); // 监听 `endLocation.searchingParking` 的变化
 
     const getAddressFromCoordinates = async (latitude, longitude) => {
         try {
@@ -52,21 +60,20 @@ export default function NavigationMap({ endLocation, navigation }) {
         console.log(address);
         const data = {
             latitude: startLocation.latitude,
-            longtitude: startLocation.longitude,
+            longitude: startLocation.longitude,
             location: address,
             time: new Date().toISOString(),
             price: parseFloat(inputText),
             duringParking: true,
         };
-        
-        console.log('User input:', inputText);
+
+        console.log("User input:", inputText);
         setModalVisible(false);
-        
+
         navigation.navigate("Main", {
             screen: "Mine",
             params: { data },
         });
-        
     };
 
     // 请求位置权限并实时更新位置
@@ -105,6 +112,7 @@ export default function NavigationMap({ endLocation, navigation }) {
     useEffect(() => {
         if (startLocation && endLocation) {
             fetchRoute();
+            
         }
     }, [startLocation, endLocation]);
 
@@ -188,6 +196,7 @@ export default function NavigationMap({ endLocation, navigation }) {
                     {/* 地图显示 */}
                     <MapView
                         style={styles.map}
+                        
                         initialRegion={{
                             latitude: startLocation.latitude,
                             longitude: startLocation.longitude,
@@ -222,22 +231,33 @@ export default function NavigationMap({ endLocation, navigation }) {
                     </View>
 
                     {/* 底部操作区域 */}
-                    <View style={styles.bottomView}>
-                        <View style={styles.inlineContainer}>
-                            <Text style={styles.text}>
-                                You'll drive {distance || "loading..."} in about{" "}
-                                {duration || "loading..."}
-                            </Text>
-                            <TouchableOpacity
-                                style={styles.inlineButton}
-                                onPress={handleExit}
-                            >
-                                <Text style={styles.inlineButtonText}>
-                                    Park Here
+                    {isSearchingParking ? (
+                        <View style={styles.bottomView}>
+                            <View style={styles.inlineContainer}>
+                                <Text style={styles.text}>
+                                    You'll drive {distance || "loading..."} in
+                                    about {duration || "loading..."}
                                 </Text>
-                            </TouchableOpacity>
+                                <TouchableOpacity
+                                    style={styles.inlineButton}
+                                    onPress={handleExit}
+                                >
+                                    <Text style={styles.inlineButtonText}>
+                                        Park Here
+                                    </Text>
+                                </TouchableOpacity>
+                            </View>
                         </View>
-                    </View>
+                    ) : (
+                        <View style={styles.bottomView}>
+                            <View>
+                                <Text style={styles.text}>
+                                    You are on the way to your vehicle...CHOP
+                                    CHOP!
+                                </Text>
+                            </View>
+                        </View>
+                    )}
                 </>
             ) : (
                 <Text>Loading...</Text>
@@ -305,7 +325,14 @@ const styles = StyleSheet.create({
         borderRadius: 10,
     },
     input: { fontSize: 16, textAlign: "center" },
-    unitpriceInput: {borderWidth: 1, width: '95%', borderColor: "black", padding: 10, margin: 15, borderRadius: 5},
+    unitpriceInput: {
+        borderWidth: 1,
+        width: "95%",
+        borderColor: "black",
+        padding: 10,
+        margin: 15,
+        borderRadius: 5,
+    },
     bottomView: {
         position: "absolute",
         bottom: height * 0.04,
@@ -322,6 +349,7 @@ const styles = StyleSheet.create({
         justifyContent: "space-between", // 使文本和按钮左右分布
         width: "100%",
     },
+    
     inlineButton: {
         backgroundColor: "red",
         paddingHorizontal: 10,
